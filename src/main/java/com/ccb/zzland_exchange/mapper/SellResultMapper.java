@@ -1,10 +1,9 @@
 package com.ccb.zzland_exchange.mapper;
 
-import com.ccb.zzland_exchange.domain.ForSell;
 import com.ccb.zzland_exchange.domain.SellResult;
 import com.ccb.zzland_exchange.domain.SellResultDataParam;
 import org.springframework.stereotype.Repository;
-import java.util.Date;
+
 import java.util.List;
 
 @Repository
