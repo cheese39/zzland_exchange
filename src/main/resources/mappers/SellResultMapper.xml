@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ccb.zzland_exchange.mapper.SellResultMapper">
+    <resultMap id="sellResult" type="com.ccb.zzland_exchange.domain.SellResult">
+        <result column="Id" property="Id"/>
+        <result column="value" property="value"/>
+        <result column="owner" property="owner"/>
+        <result column="city" property="city"/>
+        <result column="date" property="date"/>
+    </resultMap>
+    <!-- 当城市/日期选项为all时的中标信息-->
+    <select id="selectList" resultMap="sellResult" parameterType="com.ccb.zzland_exchange.domain.SellResultDataParam">
+        SELECT "Id","value","owner","city",TO_CHAR("date",'yyyy-mm-dd hh24:mi:ss') as "date" FROM
+        (SELECT ROWNUM AS rowno, t.* FROM "result_msg" t
+        WHERE ROWNUM &lt;= #{down}
+        <if test='city != "all"'>
+            and "city" = #{city}
+        </if>
+        <if test='month != "all"'>
+            and TO_CHAR("date",'mm') = #{month}
+        </if>)
+        WHERE rowno >= #{up}
+    </select>
+    <!--查询城市信息 用于设置城市复选框-->
+    <select id="selectCity" resultType="java.lang.String" parameterType="java.lang.String">
+        select "city" from "result_msg"
+        <where>
+            <if test='month != "all"'>
+                 TO_CHAR("date",'mm') = #{month}
+            </if>
+        </where>
+        group  by "city"
+    </select>
+    <!--  获取信息总条数  -->
+    <select id="selectCount" resultType="int" parameterType="java.lang.String">
+        SELECT COUNT(*) FROM "result_msg"
+        <where>
+            <if test='city != "all"'>
+               "city" = #{city}
+            </if>
+            <if test='month != "all"'>
+                and TO_CHAR("date",'mm') = #{month}
+            </if>
+        </where>
+    </select>
+
+
+    <!--查询月份 用于设置月份复选框-->
+    <select id="selectMonth" resultType="java.lang.String" parameterType="java.lang.String">
+        SELECT DISTINCT TO_CHAR("date",'mm')
+        from "result_msg"
+        <where>
+            <if test='city != "all"'>
+                "city" = #{city}
+            </if>
+        </where>
+        ORDER BY TO_CHAR("date",'mm')
+    </select>
+
+    <!--插入数据-->
+    <insert id="insertForSells" parameterType="java.util.List" useGeneratedKeys="false">
+        INSERT ALL
+        <foreach collection="list" item="item" index="index">
+            INTO "result_msg"("Id","value","owner","city","date") values(
+            #{item.Id},
+            #{item.value},
+            #{item.owner},
+            #{item.city},
+            TO_DATE(#{item.date},'yyyy-mm-dd hh24:mi:ss')
+            )
+        </foreach>
+        select 1 from dual
+    </insert>
+
+    <!--清空表-->
+    <update id="truncateTable">
+        truncate TABLE "result_msg"
+    </update>
+</mapper>
