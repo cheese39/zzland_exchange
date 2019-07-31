@@ -42,10 +42,19 @@ public class SpiderService {
             String type = filename.split("-")[1];
             if (type.equals("s")) {
                 List<ForSell> lists = SpiderFileUtil.dealSData(f, city);
-                forSellMapper.insertForSells(lists);
+                if (lists.size() != 0) {
+                    forSellMapper.insertForSells(lists);
+                }else {
+                    System.out.println("发现空文件" + f.getName());
+                }
+
             } else if (type.equals("r")) {
                 List<SellResult> lists = SpiderFileUtil.dealRData(f, city);
-                sellResultMapper.insertForSells(lists);
+                if (lists.size() != 0) {
+                    sellResultMapper.insertForSells(lists);
+                }else {
+                    System.out.println("发现空文件" + f.getName());
+                }
             }
             f.delete();
         }
