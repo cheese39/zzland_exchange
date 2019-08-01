@@ -35,11 +35,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.feng</groupId>
-            <artifactId>ojdbc6</artifactId>
-            <version>11.2.0.3</version>
-        </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.github.noraui/ojdbc8 -->
 <!--        <dependency>-->

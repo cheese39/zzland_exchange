@@ -5,11 +5,14 @@ import com.ccb.zzland_exchange.domain.SellResult;
 import com.ccb.zzland_exchange.mapper.ForSellMapper;
 import com.ccb.zzland_exchange.mapper.SellResultMapper;
 import com.ccb.zzland_exchange.util.SpiderFileUtil;
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.util.List;
 
@@ -22,8 +25,15 @@ public class SpiderService {
     @Autowired
     private SellResultMapper sellResultMapper;
 
+
     @Value("${spider.data.path}")
     private String dataPath;
+
+
+//    @Transactional
+//    List<ForSell> insertForSell(){
+//        SqlSession session =  SqlSessionTemplate.getSqlSessionFactory().openSession(ExecutorType.BATCH,false);
+//    }
 
     public boolean beginWork(){
         //清空待竞拍和中标信息表
