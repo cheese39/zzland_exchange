@@ -28,6 +28,13 @@ public interface ForSellMapper {
      */
     int selectCount(String city);
 
+
+    /**
+     * 按照城市删除
+     *
+     */
+    void deleteList(String city);
+
     /**
      * 向数据库中插入爬取到的待竞拍信息
      */

@@ -57,6 +57,12 @@
         ORDER BY TO_CHAR("date",'mm')
     </select>
 
+
+    <!--按城市删除数据-->
+    <delete id="deleteList" parameterType="java.lang.String">
+        DELETE FROM "result_msg" WHERE "city" = #{city}
+    </delete>
+
     <!--插入数据-->
     <insert id="insertForSells" parameterType="java.util.List" useGeneratedKeys="false">
         INSERT ALL

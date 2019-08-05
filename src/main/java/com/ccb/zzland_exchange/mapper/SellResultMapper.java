@@ -36,6 +36,13 @@ public interface SellResultMapper {
     List<String> selectMonth(String city);
 
     /**
+     * 按照城市删除
+     *
+     */
+    void deleteList(String city);
+
+
+    /**
      * 向数据库中插入爬取到的中标信息
      */
     void insertForSells(List<SellResult> lists);

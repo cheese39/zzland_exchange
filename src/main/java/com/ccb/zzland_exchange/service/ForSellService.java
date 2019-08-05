@@ -33,4 +33,6 @@ public class ForSellService {
     public void test(){
         mapper.truncateTable();
     }
+
+
 }
